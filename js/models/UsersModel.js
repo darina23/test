@@ -13,7 +13,7 @@ var UsersModel = Backbone.Model.extend({
             , auth = new FirebaseSimpleLogin(fb, function (error, user) {
                 if (!error) {
                     if(user){
-                        document.controller.navigate('#book');
+                        document.controller.navigate('book', {trigger: true});
                     }
                 }else{
                     errorContainer.removeClass('hide');

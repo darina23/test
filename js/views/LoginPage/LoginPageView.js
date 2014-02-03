@@ -7,7 +7,7 @@ var LoginPageView = Backbone.View.extend({
     render: function () {
         return $(this.el).html(new EJS({url: '/js/templates/loginForm.ejs'}).render());
     },
-    login: function (params) {
+    login: function () {
         var self = this
             , email = $('#email').val()
             , pwd = $('#password').val()

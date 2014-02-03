@@ -2,12 +2,12 @@ var PhoneBookListView = Backbone.View.extend({
     tagName: "ul",
     className: "contact-list",
     events: {
-        dblclick : "showAddContactForm"
+        "click .contact-row" : "showAddContactForm"
     },
     render: function () {
-        Views.bookRow.render()
+        return $(this.el).html(Views.bookRow.render())
     },
     showAddContactForm : function () {
-
+        document.controller.navigate('book/create', {trigger: true});
     }
 });

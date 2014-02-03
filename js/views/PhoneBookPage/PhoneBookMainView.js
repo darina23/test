@@ -3,6 +3,6 @@ var PhoneBookMainView = Backbone.View.extend({
     events: {
     },
     render: function () {
-        Views.bookList.render()
+        return $(this.el).html(Views.bookList.render())
     }
 });

@@ -11,8 +11,9 @@ var BookModel = Backbone.Model.extend({
 
 
     },
-    addNumber: function (name, number) {
-        var fb = new Firebase("https://pirojenka-test.firebaseio.com/");
-        fb.set({ name: name, number: number });
+    addNumber: function () {
+        var self = this
+            , fb = new Firebase("https://pirojenka-test.firebaseio.com/");
+        fb.set({ name: self.get('name'), number: self.get('number') });
     }
 });
