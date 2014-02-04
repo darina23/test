@@ -13,18 +13,25 @@ var Controller = Backbone.Router.extend({
         }
     },
     showBook: function () {
-        console.log('show book')
+        $('#headerTitle').html('(Phone book)');
+        if (Views.book.$el.length) {
+            Firebase.on('value', function(message) {
+                Contacts = new BookCollection();
+                _.each(message.val(), function(value, key){
+                    value.id = key;
+                    Contacts.add(value)
+                });
+                $('#main').html(Views.book.render());
+                Views.bookList.delegateEvents();
 
-        if (Views.login.$el.length) {
-            $('#headerTitle').html('(Phone book)');
-            $('#main').html(Views.book.render());
+            });
         }
     },
     addContact: function() {
-        console.log('add contact')
-        if (Views.login.$el.length) {
-
+        if (Views.contactCreate.$el.length) {
             $('#main').html(Views.contactCreate.render());
+            Views.contactCreate.delegateEvents();
+
         }
     },
     error: function () {
@@ -35,10 +42,10 @@ Views = {
     login: new LoginPageView(),
     book: new PhoneBookMainView(),
     bookList: new PhoneBookListView(),
-    bookRow: new PhoneBookRowView(),
     contactCreate: new PhoneBookCreateView()
 };
-
+Firebase = new Firebase('https://pirojenka-test.firebaseio.com/');
+Contacts = {};
 $(document).ready(function () {
     document.controller = new Controller();
     Backbone.history.start();

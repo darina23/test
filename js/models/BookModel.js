@@ -5,15 +5,11 @@ var BookModel = Backbone.Model.extend({
         number: false
     },
     constructor: function () {
-
-    },
-    showNumber: function (errorContainer) {
-
-
+        Backbone.Model.apply( this, arguments );
     },
     addNumber: function () {
-        var self = this
-            , fb = new Firebase("https://pirojenka-test.firebaseio.com/");
-        fb.set({ name: self.get('name'), number: self.get('number') });
+        var self = this;
+        Firebase.push({ name: self.get('name'), number: self.get('number') });
+        document.controller.navigate('book', {trigger: true});
     }
 });

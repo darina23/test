@@ -9,8 +9,7 @@ var UsersModel = Backbone.Model.extend({
     },
     signIn: function (errorContainer) {
         var self = this
-            , fb = new Firebase('https://pirojenka-test.firebaseio.com/')
-            , auth = new FirebaseSimpleLogin(fb, function (error, user) {
+            , auth = new FirebaseSimpleLogin(Firebase, function (error, user) {
                 if (!error) {
                     if(user){
                         document.controller.navigate('book', {trigger: true});

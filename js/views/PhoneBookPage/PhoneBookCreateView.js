@@ -13,7 +13,7 @@ var PhoneBookCreateView = Backbone.View.extend({
             , errorContainer = $("#dangerMessage")
             , bookModel = new BookModel();
         if(self.validation(name, number)){
-            bookModel.set({name:number, number:number});
+            bookModel.set({name:name, number:number});
             bookModel.addNumber();
         }
     },

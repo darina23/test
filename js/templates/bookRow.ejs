@@ -1,2 +1,11 @@
-<div class="col-md-2 contact-name">name</div>
-<div class="col-md-2 contact-number">number</div>
+<%if (data) {%>
+    <li class="row" data-id="<%= data.get('id') %>">
+        <div class="col-md-2 contact-name"><%= data.get('name') %></div>
+        <div class="col-md-2 contact-number"><%= data.get('number') %></div>
+    </li>
+<%} else {%>
+    <li class="contact-row row">
+        <div class="col-md-2 contact-name">Name</div>
+        <div class="col-md-2 contact-number">Number</div>
+    </li>
+<%}%>
