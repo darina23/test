@@ -3,7 +3,7 @@ var Controller = Backbone.Router.extend({
         "": "start",
         "book": "showBook",
         "book/create": "addContact",
-        "!/error": "error"
+        "book/update/:id": "updateContact"
     },
 
     start: function () {
@@ -15,7 +15,7 @@ var Controller = Backbone.Router.extend({
     showBook: function () {
         $('#headerTitle').html('(Phone book)');
         if (Views.book.$el.length) {
-            Firebase.on('value', function(message) {
+            FirebaseGlobal.once('value', function(message) {
                 Contacts = new BookCollection();
                 _.each(message.val(), function(value, key){
                     value.id = key;
@@ -34,8 +34,32 @@ var Controller = Backbone.Router.extend({
 
         }
     },
-    error: function () {
+    updateContact: function (id){
+        if (Views.contactCreate.$el.length) {
+            var d = $.Deferred();
+            if (!Contacts.length || !Contacts.get(id)){
+                var firebaseForRow =  new Firebase(FirebaseGlobal.child(id).toString());
+                firebaseForRow.once('value', function(message){
+                    var contact = message.val();
+                    if(contact){
+                        contact.id = id;
+                        Contacts = new BookCollection();
+                        Contacts.add(contact);
+                        d.resolve();
+                        d.promise();
+                    }
+                })
+            } else {
+                d.resolve();
+                d.promise();
+            }
+            d.done(function() {
+                var model = Contacts.get(id);
+                $('#main').html(Views.contactCreate.render({name: model.get('name'), number: model.get('number'), id: id }));
+                Views.contactCreate.delegateEvents();
+            });
 
+        }
     }
 });
 Views = {
@@ -44,7 +68,7 @@ Views = {
     bookList: new PhoneBookListView(),
     contactCreate: new PhoneBookCreateView()
 };
-Firebase = new Firebase('https://pirojenka-test.firebaseio.com/');
+FirebaseGlobal = new Firebase('https://pirojenka-test.firebaseio.com/');
 Contacts = {};
 $(document).ready(function () {
     document.controller = new Controller();

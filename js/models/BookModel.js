@@ -9,7 +9,20 @@ var BookModel = Backbone.Model.extend({
     },
     addNumber: function () {
         var self = this;
-        Firebase.push({ name: self.get('name'), number: self.get('number') });
+        FirebaseGlobal.push({ name: self.get('name'), number: self.get('number') });
         document.controller.navigate('book', {trigger: true});
+    },
+    updateNumber: function () {
+        var self = this;
+        FirebaseGlobal.child(self.get('id')).set({ name: self.get('name'), number: self.get('number')}, function (){
+            document.controller.navigate('book', {trigger: true});
+        });
+    },
+    removeContact: function () {
+        var self = this;
+        FirebaseGlobal.child(self.get('id')).remove(function(){
+            Backbone.history.loadUrl();
+            return false;
+        });
     }
 });

@@ -9,7 +9,7 @@ var UsersModel = Backbone.Model.extend({
     },
     signIn: function (errorContainer) {
         var self = this
-            , auth = new FirebaseSimpleLogin(Firebase, function (error, user) {
+            , auth = new FirebaseSimpleLogin(FirebaseGlobal, function (error, user) {
                 if (!error) {
                     if(user){
                         document.controller.navigate('book', {trigger: true});
