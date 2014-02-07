@@ -12,7 +12,7 @@ var Controller = Backbone.Router.extend({
             $('#main').html(Views.login.render());
         }
     },
-    showBook: function () {
+    showBook: function (d2) {
         $('#headerTitle').html('(Phone book)');
         if (Views.book.$el.length) {
             FirebaseGlobal.once('value', function(message) {
@@ -22,19 +22,27 @@ var Controller = Backbone.Router.extend({
                     Contacts.add(value)
                 });
                 $('#main').html(Views.book.render());
+                if (d2){
+                    return d2.resolve();
+                }
                 Views.bookList.delegateEvents();
-
             });
         }
     },
     addContact: function() {
         if (Views.contactCreate.$el.length) {
-            $('#main').html(Views.contactCreate.render());
-            Views.contactCreate.delegateEvents();
+            if(!$('#main').find('.contact-create-row').length){
+                document.controller.navigate('book', {trigger: true});
+                Views.contactCreate.delegateEvents();
+            } else {
+                $('#main').find('.contact-create-row').html(Views.contactCreate.render());
+                Views.contactCreate.delegateEvents();
+            }
 
         }
     },
     updateContact: function (id){
+        var self = this;
         if (Views.contactCreate.$el.length) {
             var d = $.Deferred();
             if (!Contacts.length || !Contacts.get(id)){
@@ -54,11 +62,19 @@ var Controller = Backbone.Router.extend({
                 d.promise();
             }
             d.done(function() {
-                var model = Contacts.get(id);
-                $('#main').html(Views.contactCreate.render({name: model.get('name'), number: model.get('number'), id: id }));
-                Views.contactCreate.delegateEvents();
+                var model = Contacts.get(id),
+                 d2 = $.Deferred();
+                if(!$('#main').find('.contact-update-row[data-id=' + id + ']').length){
+                    self.showBook(d2);
+                } else {
+                     d2.resolve();
+                }
+                d2.done(function(){
+                    $('#main').find('.contact-update-row[data-id=' + id + ']')
+                        .html(Views.contactCreate.render({name: model.get('name'), number: model.get('number'), id: id }));
+                    Views.contactCreate.delegateEvents();
+                })
             });
-
         }
     }
 });

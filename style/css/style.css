@@ -1,0 +1,25 @@
+body {
+    background: url("../images/body.png");
+}
+input {
+    background: #f5f1e5 !important;
+
+}
+#main {
+    width: 50%;
+    padding: 20px;
+    position: relative;
+    left: 25%;
+    border: 1px solid #bab29b;
+    background: url("../images/body-main.png");
+
+}
+.page-header {
+    color: #716c59;
+}
+.contact-update-row div, .contact-create-row div{
+    border: 1px solid #bab29b;
+    padding: 5px;
+    margin: 5px;
+    background: #f5f1e5
+}

@@ -2,9 +2,9 @@ var PhoneBookListView = Backbone.View.extend({
     tagName: "ul",
     className: "contact-list",
     events: {
-        "click .contact-create-row" : "showAddContactForm",
-        "click .contact-update-row .contact-name" : "showUpdateContactForm",
-        "click .contact-update-row .contact-number" : "showUpdateContactForm",
+        "dblclick .contact-create-row" : "showAddContactForm",
+        "dblclick .contact-update-row .contact-name" : "showUpdateContactForm",
+        "dblclick .contact-update-row .contact-number" : "showUpdateContactForm",
         "click .contact-update-row .contact-remove" : "deleteContactRow"
     },
     render: function () {
