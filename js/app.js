@@ -30,12 +30,15 @@ var Controller = Backbone.Router.extend({
         }
     },
     addContact: function() {
+        var mainContainer = $('#main');
         if (Views.contactCreate.$el.length) {
-            if(!$('#main').find('.contact-create-row').length){
+            if(!mainContainer.find('.contact-create-row').length){
                 document.controller.navigate('book', {trigger: true});
                 Views.contactCreate.delegateEvents();
             } else {
-                $('#main').find('.contact-create-row').html(Views.contactCreate.render());
+                $('.contact-update-row').find('div.hide').removeClass('hide');
+                mainContainer.find('.contact-create-row').find('div, i').addClass('hide');
+                mainContainer.find('.contact-create-row').prepend(Views.contactCreate.render());
                 Views.contactCreate.delegateEvents();
             }
 
@@ -70,8 +73,11 @@ var Controller = Backbone.Router.extend({
                      d2.resolve();
                 }
                 d2.done(function(){
-                    $('#main').find('.contact-update-row[data-id=' + id + ']')
-                        .html(Views.contactCreate.render({name: model.get('name'), number: model.get('number'), id: id }));
+                    var currentRow = $('#main').find('.contact-update-row[data-id=' + id + ']');
+                    $('.contact-update-row').find('div.hide').removeClass('hide');
+                    $('.contact-create-row').find('div.hide').removeClass('hide');
+                    currentRow.find('div, i').addClass('hide');
+                    currentRow.prepend(Views.contactCreate.render({name: model.get('name'), number: model.get('number'), id: id}));
                     Views.contactCreate.delegateEvents();
                 })
             });
@@ -85,8 +91,24 @@ Views = {
     contactCreate: new PhoneBookCreateView()
 };
 FirebaseGlobal = new Firebase('https://pirojenka-test.firebaseio.com/');
+Auth = new FirebaseSimpleLogin(FirebaseGlobal, function (error, user) {
+    if (!error) {
+        if(user){
+            var userModel = new UsersModel();
+            userModel.set({useremail:user.email, userpwd:user.firebaseAuthToken})
+            $('#logOut').click(function(){
+                userModel.logOut();
+            });
+            document.controller.navigate('book', {trigger: true});
+        }
+    }else{
+        $("#validationEmail").html(ValidateMessages.invalidUser);
+    }
+});
 Contacts = {};
 $(document).ready(function () {
     document.controller = new Controller();
     Backbone.history.start();
+
+
 });

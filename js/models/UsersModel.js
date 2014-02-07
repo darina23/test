@@ -8,21 +8,18 @@ var UsersModel = Backbone.Model.extend({
 
     },
     signIn: function (errorContainer) {
-        var self = this
-            , auth = new FirebaseSimpleLogin(FirebaseGlobal, function (error, user) {
-                if (!error) {
-                    if(user){
-                        document.controller.navigate('book', {trigger: true});
-                    }
-                }else{
-                    errorContainer.removeClass('hide');
-                }
-            });
-        auth.login('password', {
+        var self = this;
+        Auth.login('password', {
             email: self.get('useremail'),
             password: self.get('userpwd'),
             rememberMe: self.get('rememberme')
         });
+
+    },
+    logOut: function () {
+        Auth.logout();
+        document.controller.navigate('', {trigger: true});
+
 
     }
 

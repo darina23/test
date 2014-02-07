@@ -5,13 +5,13 @@ var LoginPageView = Backbone.View.extend({
         "click #submitLogin": "login"
     },
     render: function () {
-        return $(this.el).html(new EJS({url: '/js/templates/loginForm.ejs'}).render());
+        return $(this.el).html(new EJS({url: '/templates/loginForm.ejs'}).render());
     },
     login: function () {
         var self = this
             , email = $('#email').val()
             , pwd = $('#password').val()
-            , errorContainer = $("#dangerMessage")
+            , errorContainer = $("#validationEmail")
             , userModel = new UsersModel();
         if(self.validation(email, pwd)){
             userModel.set({useremail:email, userpwd:pwd})
@@ -19,11 +19,16 @@ var LoginPageView = Backbone.View.extend({
         }
     },
     validation: function(email, pwd){
-        var regEmail = /^\w+@\w+\.\w{2,4}$/i;
-        if(regEmail.test(email) && pwd.length){
+        var regEmail = /^\w+@\w+\.\w{2,4}$/i.test(email);
+        if(regEmail && pwd.length){
             return true;
         } else {
-            $("#dangerMessage").removeClass('hide');
+            if(!regEmail){
+                $("#validationEmail").html(ValidateMessages.emailFormat);
+            }
+            if(!pwd.length){
+                $("#validationPassword").html(ValidateMessages.passwordEmpty);
+            }
         }
         return false;
     }

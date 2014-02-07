@@ -5,21 +5,73 @@ input {
     background: #f5f1e5 !important;
 
 }
+.btn-default {
+    background-color: #f5f1e5;
+    text-shadow: none;
+    background-image: none;
+}
+
 #main {
     width: 50%;
     padding: 20px;
     position: relative;
     left: 25%;
-    border: 1px solid #bab29b;
+    border: 2px solid #bab29b;
     background: url("../images/body-main.png");
+    border-radius: 10px;
 
 }
+
 .page-header {
     color: #716c59;
+    border-bottom: 3px solid #bab29b;
 }
+
+.contact-update-row, .contact-create-row {
+    position: relative;
+    cursor:pointer;
+}
+
 .contact-update-row div, .contact-create-row div{
     border: 1px solid #bab29b;
     padding: 5px;
     margin: 5px;
-    background: #f5f1e5
+    background: #f5f1e5;
+    border-radius: 5px;
+}
+
+.validation-fields{
+    font-size: 12px;
+    color: red;
+    float: left;
+    height: 15px;
+}
+.contact-remove, .glyphicon-refresh, .glyphicon-plus {
+    position: absolute;
+    top: 30%;
+}
+.selected-contact {
+    background-color: #b2a281;
+}
+.contact-list div {
+    border-radius: 5px;
+}
+.contact-create-row .row,.contact-update-row .row {
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: inherit;
+}
+.contact-list .form-group {
+    padding: 0;
+}
+.contact-list .form-group input {
+    margin: 0;
+    padding: 0;
+}
+#logOut {
+    float: right;
+    margin-right: 60px;
+    font-size: 24px;
+    cursor: pointer;
 }

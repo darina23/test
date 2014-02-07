@@ -1,0 +1,23 @@
+This little phone book application with simple login and CRUD for contacts.
+Using technologies:
+- backbone 1.1.0
+- bootstrap 3.0.3
+- ejs
+- jquery 1.10.2
+- lo-dash 2.4.1
+- firebase api
+
+Into firebase use simple login with to possible users:
+ login : admin@admin.com    pwd: 12345
+ login : admin@new.com      pwd: 12345
+
+ All of information saved into firebase data store.
+
+ details:
+ create 2 views -
+ 1) login form: user enters his login/pwd and if accepted, proceeds to the next view, otherwise show the error message.
+ 2) editable table (grid) with the phone book
+ two columns - name and phone number.
+ table is editable inline - i.e. you can add new row for a new person (double click the empty row), you can edit existing rows inline (double click the name or phone#), you can delete rows (show x button when the row is hovered).
+ add phone number format validator (xxx-xxxx-xxxx) where x is a 0..9 digit
+ add check for duplicate names.
